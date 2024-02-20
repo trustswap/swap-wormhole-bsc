@@ -4,7 +4,7 @@ pragma solidity ^0.8.13;
 import "wormhole-solidity-sdk/WormholeRelayerSDK.sol";
 import "wormhole-solidity-sdk/interfaces/IERC20.sol";
 
-contract HelloToken is TokenSender, TokenReceiver {
+contract SwapToken is TokenSender, TokenReceiver {
     uint256 constant GAS_LIMIT = 250_000;
 
     constructor(

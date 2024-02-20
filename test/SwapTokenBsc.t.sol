@@ -1,21 +1,21 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.13;
 
-import {HelloToken} from "../src/HelloToken.sol";
+import {SwapToken} from "../src/SwapTokenBsc.sol";
 
 import "wormhole-solidity-sdk/testing/WormholeRelayerTest.sol";
 
 import "forge-std/Test.sol";
 import "forge-std/console.sol";
 
-contract HelloTokenTest is WormholeRelayerBasicTest {
-    HelloToken public helloSource;
-    HelloToken public helloTarget;
+contract SwapTokenBscTest is WormholeRelayerBasicTest {
+    SwapToken public swapSource;
+    SwapToken public swapTarget;
 
     ERC20Mock public token;
 
     function setUpSource() public override {
-        helloSource = new HelloToken(
+        swapSource = new SwapToken(
             address(relayerSource),
             address(tokenBridgeSource),
             address(wormholeSource)
@@ -25,7 +25,7 @@ contract HelloTokenTest is WormholeRelayerBasicTest {
     }
 
     function setUpTarget() public override {
-        helloTarget = new HelloToken(
+        swapTarget = new SwapToken(
             address(relayerTarget),
             address(tokenBridgeTarget),
             address(wormholeTarget)
@@ -34,17 +34,17 @@ contract HelloTokenTest is WormholeRelayerBasicTest {
 
     function testRemoteDeposit() public {
         uint256 amount = 19e17;
-        token.approve(address(helloSource), amount);
+        token.approve(address(swapSource), amount);
 
         vm.selectFork(targetFork);
         address recipient = 0x1234567890123456789012345678901234567890;
 
         vm.selectFork(sourceFork);
-        uint256 cost = helloSource.quoteCrossChainDeposit(targetChain);
+        uint256 cost = swapSource.quoteCrossChainDeposit(targetChain);
 
         vm.recordLogs();
-        helloSource.sendCrossChainDeposit{value: cost}(
-            targetChain, address(helloTarget), recipient, amount, address(token)
+        swapSource.sendCrossChainDeposit{value: cost}(
+            targetChain, address(swapTarget), recipient, amount, address(token)
         );
         performDelivery();
 

@@ -1,5 +1,5 @@
 {
-  "name": "hello-token",
+  "name": "swap-token",
   "version": "1.0.0",
   "main": "ts-scripts/main.ts",
   "repository": "git@github.com:wormhole-foundation/hello-token.git",
